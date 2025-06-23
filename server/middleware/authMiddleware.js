@@ -1,27 +1,32 @@
+// authMiddleware.js
+
 import jwt from 'jsonwebtoken'
 import Company from '../models/Company.js'
+import { getAuth } from '@clerk/express'
 
-// Middleware ( Protect Company Routes )
-export const protectCompany = async (req,res,next) => {
+// ✅ Protect company (recruiter) routes using custom JWT
+export const protectCompany = async (req, res, next) => {
+  const token = req.headers.token
 
-    // Getting Token Froms Headers
-    const token = req.headers.token
+  if (!token) {
+    return res.json({ success: false, message: 'Not authorized, Login Again' })
+  }
 
-    
-    if (!token) {
-        return res.json({ success:false, message:'Not authorized, Login Again'})
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.company = await Company.findById(decoded.id).select('-password')
+    next()
+  } catch (error) {
+    res.json({ success: false, message: error.message })
+  }
+}
 
-    try {
-        
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-        req.company = await Company.findById(decoded.id).select('-password')
-
-        next()
-
-    } catch (error) {
-        res.json({success:false, message: error.message})
-    }
-
+// ✅ Protect user (student/applicant) routes using Clerk
+export const requireAuth = (req, res, next) => {
+  const auth = getAuth(req)
+  if (!auth || !auth.userId) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' })
+  }
+  req.auth = auth
+  next()
 }
