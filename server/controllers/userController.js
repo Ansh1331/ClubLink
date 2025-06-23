@@ -19,7 +19,7 @@ export const createUser = async (req, res) => {
     const clerkUser = await clerkClient.users.getUser(userId);
 
     // 3. Extract useful fields
-    const name = `${clerkUser.firstName} ${clerkUser.lastName}`;
+    const name = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ');
     const email = clerkUser.emailAddresses[0].emailAddress;
     const image = clerkUser.imageUrl;
 
