@@ -1,11 +1,11 @@
 // authMiddleware.js
 
 import jwt from 'jsonwebtoken'
-import Company from '../models/Company.js'
+import Club from '../models/Club.js'
 import { getAuth } from '@clerk/express'
 
-// ✅ Protect company (recruiter) routes using custom JWT
-export const protectCompany = async (req, res, next) => {
+// ✅ Protect club (recruiter) routes using custom JWT
+export const protectClub = async (req, res, next) => {
   const token = req.headers.token
 
   if (!token) {
@@ -14,7 +14,7 @@ export const protectCompany = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.company = await Company.findById(decoded.id).select('-password')
+    req.club = await Club.findById(decoded.id).select('-password')
     next()
   } catch (error) {
     res.json({ success: false, message: error.message })

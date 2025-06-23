@@ -6,25 +6,25 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import Loading from '../components/Loading'
 
-const ManageJobs = () => {
+const ManageRoles = () => {
 
   const navigate = useNavigate()
 
-  const [jobs, setJobs] = useState(false)
+  const [roles, setRoles] = useState(false)
 
-  const { backendUrl, companyToken } = useContext(AppContext)
+  const { backendUrl, clubToken } = useContext(AppContext)
 
-  // Function to fetch company Job Applications data 
-  const fetchCompanyJobs = async () => {
+  // Function to fetch club Role Applications data 
+  const fetchClubRoles = async () => {
 
     try {
 
-      const { data } = await axios.get(backendUrl + '/api/company/list-jobs',
-        { headers: { token: companyToken } }
+      const { data } = await axios.get(backendUrl + '/api/club/list-roles',
+        { headers: { token: clubToken } }
       )
 
       if (data.success) {
-        setJobs(data.jobsData.reverse())
+        setRoles(data.rolesData.reverse())
       } else {
         toast.error(data.message)
       }
@@ -35,19 +35,19 @@ const ManageJobs = () => {
 
   }
 
-  // Function to change Job Visibility 
-  const changeJobVisiblity = async (id) => {
+  // Function to change Role Visibility 
+  const changeRoleVisiblity = async (id) => {
 
     try {
 
-      const { data } = await axios.post(backendUrl + '/api/company/change-visiblity',
+      const { data } = await axios.post(backendUrl + '/api/club/change-visiblity',
         { id },
-        { headers: { token: companyToken } }
+        { headers: { token: clubToken } }
       )
 
       if (data.success) {
         toast.success(data.message)
-        fetchCompanyJobs()
+        fetchClubRoles()
       } else {
         toast.error(data.message)
       }
@@ -59,14 +59,14 @@ const ManageJobs = () => {
   }
 
   useEffect(() => {
-    if (companyToken) {
-      fetchCompanyJobs()
+    if (clubToken) {
+      fetchClubRoles()
     }
-  }, [companyToken])
+  }, [clubToken])
 
-  return jobs ? jobs.length === 0 ? (
+  return roles ? roles.length === 0 ? (
     <div className='flex items-center justify-center h-[70vh]'>
-      <p className='text-xl sm:text-2xl'>No Jobs Available or posted</p>
+      <p className='text-xl sm:text-2xl'>No Roles Available or posted</p>
     </div>
   ) : (
     <div className='container p-4 max-w-5xl'>
@@ -75,23 +75,23 @@ const ManageJobs = () => {
           <thead>
             <tr>
               <th className='py-2 px-4 border-b text-left max-sm:hidden'>#</th>
-              <th className='py-2 px-4 border-b text-left'>Job Title</th>
+              <th className='py-2 px-4 border-b text-left'>Role Title</th>
               <th className='py-2 px-4 border-b text-left max-sm:hidden'>Date</th>
-              <th className='py-2 px-4 border-b text-left max-sm:hidden'>Location</th>
+              <th className='py-2 px-4 border-b text-left max-sm:hidden'>Position</th>
               <th className='py-2 px-4 border-b text-center'>Applicants</th>
               <th className='py-2 px-4 border-b text-left'>Visible</th>
             </tr>
           </thead>
           <tbody>
-            {jobs.map((job, index) => (
+            {roles.map((role, index) => (
               <tr key={index} className='text-gray-700'>
                 <td className='py-2 px-4 border-b max-sm:hidden'>{index + 1}</td>
-                <td className='py-2 px-4 border-b' >{job.title}</td>
-                <td className='py-2 px-4 border-b max-sm:hidden' >{moment(job.date).format('ll')}</td>
-                <td className='py-2 px-4 border-b max-sm:hidden' >{job.location}</td>
-                <td className='py-2 px-4 border-b text-center' >{job.applicants}</td>
+                <td className='py-2 px-4 border-b' >{role.title}</td>
+                <td className='py-2 px-4 border-b max-sm:hidden' >{moment(role.date).format('ll')}</td>
+                <td className='py-2 px-4 border-b max-sm:hidden' >{role.location}</td>
+                <td className='py-2 px-4 border-b text-center' >{role.applicants}</td>
                 <td className='py-2 px-4 border-b' >
-                  <input onChange={() => changeJobVisiblity(job._id)} className='scale-125 ml-4' type="checkbox" checked={job.visible} />
+                  <input onChange={() => changeRoleVisiblity(role._id)} className='scale-125 ml-4' type="checkbox" checked={role.visible} />
                 </td>
               </tr>
             ))}
@@ -99,10 +99,10 @@ const ManageJobs = () => {
         </table>
       </div>
       <div className='mt-4 flex justify-end'>
-        <button onClick={() => navigate('/dashboard/add-job')} className='bg-black text-white py-2 px-4 rounded'>Add new job</button>
+        <button onClick={() => navigate('/dashboard/add-role')} className='bg-black text-white py-2 px-4 rounded'>Add new role</button>
       </div>
     </div>
   ) : <Loading />
 }
 
-export default ManageJobs
+export default ManageRoles

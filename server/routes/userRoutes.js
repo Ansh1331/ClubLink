@@ -1,8 +1,8 @@
 import express from 'express'
 import {
-  applyForJob,
+  applyForRole,
   getUserData,
-  getUserJobApplications,
+  getUserRoleApplications,
   updateUserResume,
   createUser, // ✅ added
 } from '../controllers/userController.js'
@@ -15,8 +15,8 @@ const router = express.Router()
 router.use(requireAuth) // ✅ protect all routes below with Clerk JWT middleware
 
 router.get('/user', getUserData)
-router.post('/apply', applyForJob)
-router.get('/applications', getUserJobApplications)
+router.post('/apply', applyForRole)
+router.get('/applications', getUserRoleApplications)
 router.post('/update-resume', upload.single('resume'), updateUserResume)
 
 // ✅ Create user (called on first login)

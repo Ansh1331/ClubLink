@@ -1,5 +1,5 @@
-import Job from "../models/Job.js"
-import JobApplication from "../models/JobApplication.js"
+import Role from "../models/Role.js"
+import RoleApplication from "../models/RoleApplication.js"
 import User from "../models/User.js"
 import { v2 as cloudinary } from "cloudinary"
 import { clerkClient } from '@clerk/clerk-sdk-node'
@@ -55,27 +55,27 @@ export const getUserData = async (req, res) => {
   }
 };
 
-// Apply For Job
-export const applyForJob = async (req, res) => {
-  const { jobId } = req.body;
+// Apply For Role
+export const applyForRole = async (req, res) => {
+  const { roleId } = req.body;
   const userId = req.auth.userId;
 
   try {
-    const isAlreadyApplied = await JobApplication.find({ jobId, userId });
+    const isAlreadyApplied = await RoleApplication.find({ roleId, userId });
 
     if (isAlreadyApplied.length > 0) {
       return res.json({ success: false, message: 'Already Applied' });
     }
 
-    const jobData = await Job.findById(jobId);
-    if (!jobData) {
-      return res.json({ success: false, message: 'Job Not Found' });
+    const roleData = await Role.findById(roleId);
+    if (!roleData) {
+      return res.json({ success: false, message: 'Role Not Found' });
     }
 
-    await JobApplication.create({
-      companyId: jobData.companyId,
+    await RoleApplication.create({
+      clubId: roleData.clubId,
       userId,
-      jobId,
+      roleId,
       date: Date.now(),
     });
 
@@ -86,17 +86,17 @@ export const applyForJob = async (req, res) => {
 };
 
 // Get User Applied Applications Data
-export const getUserJobApplications = async (req, res) => {
+export const getUserRoleApplications = async (req, res) => {
   try {
     const userId = req.auth.userId;
 
-    const applications = await JobApplication.find({ userId })
-      .populate('companyId', 'name email image')
-      .populate('jobId', 'title description location category level salary')
+    const applications = await RoleApplication.find({ userId })
+      .populate('clubId', 'name email image')
+      .populate('roleId', 'title description location category level salary')
       .exec();
 
     if (!applications) {
-      return res.json({ success: false, message: 'No job applications found for this user.' });
+      return res.json({ success: false, message: 'No role applications found for this user.' });
     }
 
     return res.json({ success: true, applications });

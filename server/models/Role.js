@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const jobSchema = new mongoose.Schema({
+const roleSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     location: { type: String, required: true },
@@ -9,9 +9,9 @@ const jobSchema = new mongoose.Schema({
     salary: { type: Number, required: true },
     date: { type: Number, required: true },
     visible: { type: Boolean, default: true },
-    companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true }
+    clubId: { type: mongoose.Schema.Types.ObjectId, ref: 'Club', required: true }
 })
 
-const Job = mongoose.model('Job', jobSchema)
+const Role = mongoose.model('Role', roleSchema)
 
-export default Job
+export default Role

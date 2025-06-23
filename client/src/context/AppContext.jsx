@@ -19,24 +19,24 @@ export const AppContextProvider = (props) => {
 
     const [isSearched, setIsSearched] = useState(false)
 
-    const [jobs, setJobs] = useState([])
+    const [roles, setRoles] = useState([])
 
     const [showRecruiterLogin, setShowRecruiterLogin] = useState(false)
 
-    const [companyToken, setCompanyToken] = useState(null)
-    const [companyData, setCompanyData] = useState(null)
+    const [clubToken, setClubToken] = useState(null)
+    const [clubData, setClubData] = useState(null)
 
     const [userData, setUserData] = useState(null)
     const [userApplications, setUserApplications] = useState([])
 
-    // Function to Fetch Jobs 
-    const fetchJobs = async () => {
+    // Function to Fetch Roles 
+    const fetchRoles = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/jobs')
+            const { data } = await axios.get(backendUrl + '/api/roles')
 
             if (data.success) {
-                setJobs(data.jobs)
+                setRoles(data.roles)
             } else {
                 toast.error(data.message)
             }
@@ -46,14 +46,14 @@ export const AppContextProvider = (props) => {
         }
     }
 
-    // Function to Fetch Company Data
-    const fetchCompanyData = async () => {
+    // Function to Fetch Club Data
+    const fetchClubData = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/company/company', { headers: { token: companyToken } })
+            const { data } = await axios.get(backendUrl + '/api/club/club', { headers: { token: clubToken } })
 
             if (data.success) {
-                setCompanyData(data.company)
+                setClubData(data.club)
             } else {
                 toast.error(data.message)
             }
@@ -112,24 +112,24 @@ export const AppContextProvider = (props) => {
         }
     }
 
-    // Retrive Company Token From LocalStorage
+    // Retrive Club Token From LocalStorage
     useEffect(() => {
-        fetchJobs()
+        fetchRoles()
 
-        const storedCompanyToken = localStorage.getItem('companyToken')
+        const storedClubToken = localStorage.getItem('clubToken')
 
-        if (storedCompanyToken) {
-            setCompanyToken(storedCompanyToken)
+        if (storedClubToken) {
+            setClubToken(storedClubToken)
         }
 
     }, [])
 
-    // Fetch Company Data if Company Token is Available
+    // Fetch Club Data if Club Token is Available
     useEffect(() => {
-        if (companyToken) {
-            fetchCompanyData()
+        if (clubToken) {
+            fetchClubData()
         }
-    }, [companyToken])
+    }, [clubToken])
 
     // Fetch User's Applications & Data if User is Logged In
     useEffect(() => {
@@ -142,10 +142,10 @@ export const AppContextProvider = (props) => {
     const value = {
         setSearchFilter, searchFilter,
         isSearched, setIsSearched,
-        jobs, setJobs,
+        roles, setRoles,
         showRecruiterLogin, setShowRecruiterLogin,
-        companyToken, setCompanyToken,
-        companyData, setCompanyData,
+        clubToken, setClubToken,
+        clubData, setClubData,
         backendUrl,
         userData, setUserData,
         userApplications, setUserApplications,

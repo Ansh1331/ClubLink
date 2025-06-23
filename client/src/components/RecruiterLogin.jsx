@@ -18,7 +18,7 @@ const RecruiterLogin = () => {
 
     const [isTextDataSubmited, setIsTextDataSubmited] = useState(false)
 
-    const { setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } = useContext(AppContext)
+    const { setShowRecruiterLogin, backendUrl, setClubToken, setClubData } = useContext(AppContext)
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
@@ -31,12 +31,12 @@ const RecruiterLogin = () => {
 
             if (state === "Login") {
 
-                const { data } = await axios.post(backendUrl + '/api/company/login', { email, password })
+                const { data } = await axios.post(backendUrl + '/api/club/login', { email, password })
 
                 if (data.success) {
-                    setCompanyData(data.company)
-                    setCompanyToken(data.token)
-                    localStorage.setItem('companyToken', data.token)
+                    setClubData(data.club)
+                    setClubToken(data.token)
+                    localStorage.setItem('clubToken', data.token)
                     setShowRecruiterLogin(false)
                     navigate('/dashboard')
                 } else {
@@ -51,12 +51,12 @@ const RecruiterLogin = () => {
                 formData.append('email', email)
                 formData.append('image', image)
 
-                const { data } = await axios.post(backendUrl + '/api/company/register', formData)
+                const { data } = await axios.post(backendUrl + '/api/club/register', formData)
 
                 if (data.success) {
-                    setCompanyData(data.company)
-                    setCompanyToken(data.token)
-                    localStorage.setItem('companyToken', data.token)
+                    setClubData(data.club)
+                    setClubToken(data.token)
+                    localStorage.setItem('clubToken', data.token)
                     setShowRecruiterLogin(false)
                     navigate('/dashboard')
                 } else {
@@ -92,7 +92,7 @@ const RecruiterLogin = () => {
                                 <img className='w-16 rounded-full' src={image ? URL.createObjectURL(image) : assets.upload_area} alt="" />
                                 <input onChange={e => setImage(e.target.files[0])} type="file" id='image' hidden />
                             </label>
-                            <p>Upload Company <br /> logo</p>
+                            <p>Upload Club <br /> logo</p>
                         </div>
 
                     </>
@@ -101,7 +101,7 @@ const RecruiterLogin = () => {
                         {state !== 'Login' && (
                             <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>
                                 <img src={assets.person_icon} alt="" />
-                                <input className='outline-none text-sm' onChange={e => setName(e.target.value)} value={name} type="text" placeholder='Company Name' required />
+                                <input className='outline-none text-sm' onChange={e => setName(e.target.value)} value={name} type="text" placeholder='Club Name' required />
                             </div>
                         )}
 

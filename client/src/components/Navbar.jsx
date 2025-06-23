@@ -16,11 +16,17 @@ const Navbar = () => {
     return (
         <div className='shadow py-4'>
             <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
-                <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="" />
+                <img
+                    onClick={() => navigate('/')}
+                    className='cursor-pointer h-10 w-auto'  // ⬅️ height-controlled, responsive width
+                    src={assets.logo}
+                    alt="ClubLink logo"
+                />
+                {/* <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="" /> */}
                 {
                     user
                         ? <div className='flex items-center gap-3'>
-                            <Link to={'/applications'}>Applied Jobs</Link>
+                            <Link to={'/applications'}>My Applications</Link>
                             <p>|</p>
                             <p className='max-sm:hidden'>Hi, {user.firstName + " " + user.lastName}</p>
                             <UserButton />

@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
-import { assets, JobCategories, JobLocations } from '../assets/assets'
-import JobCard from './JobCard'
+import { assets, RoleCategories, RolePositions } from '../assets/assets'
+import RoleCard from './RoleCard'
 
-const JobListing = () => {
+const RoleListing = () => {
 
-    const { isSearched, searchFilter, setSearchFilter, jobs } = useContext(AppContext)
+    const { isSearched, searchFilter, setSearchFilter, roles } = useContext(AppContext)
 
     const [showFilter, setShowFilter] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedCategories, setSelectedCategories] = useState([])
-    const [selectedLocations, setSelectedLocations] = useState([])
+    const [selectedPositions, setSelectedPositions] = useState([])
 
-    const [filteredJobs, setFilteredJobs] = useState(jobs)
+    const [filteredRoles, setFilteredRoles] = useState(roles)
 
     const handleCategoryChange = (category) => {
         setSelectedCategories(
@@ -20,29 +20,29 @@ const JobListing = () => {
         )
     }
 
-    const handleLocationChange = (location) => {
-        setSelectedLocations(
+    const handlePositionChange = (location) => {
+        setSelectedPositions(
             prev => prev.includes(location) ? prev.filter(c => c !== location) : [...prev, location]
         )
     }
 
     useEffect(() => {
 
-        const matchesCategory = job => selectedCategories.length === 0 || selectedCategories.includes(job.category)
+        const matchesCategory = role => selectedCategories.length === 0 || selectedCategories.includes(role.category)
 
-        const matchesLocation = job => selectedLocations.length === 0 || selectedLocations.includes(job.location)
+        const matchesPosition = role => selectedPositions.length === 0 || selectedPositions.includes(role.location)
 
-        const matchesTitle = job => searchFilter.title === "" || job.title.toLowerCase().includes(searchFilter.title.toLowerCase())
+        const matchesTitle = role => searchFilter.title === "" || role.title.toLowerCase().includes(searchFilter.title.toLowerCase())
 
-        const matchesSearchLocation = job => searchFilter.location === "" || job.location.toLowerCase().includes(searchFilter.location.toLowerCase())
+        const matchesSearchPosition = role => searchFilter.location === "" || role.location.toLowerCase().includes(searchFilter.location.toLowerCase())
 
-        const newFilteredJobs = jobs.slice().reverse().filter(
-            job => matchesCategory(job) && matchesLocation(job) && matchesTitle(job) && matchesSearchLocation(job)
+        const newFilteredRoles = roles.slice().reverse().filter(
+            role => matchesCategory(role) && matchesPosition(role) && matchesTitle(role) && matchesSearchPosition(role)
         )
 
-        setFilteredJobs(newFilteredJobs)
+        setFilteredRoles(newFilteredRoles)
         setCurrentPage(1)
-    }, [jobs, selectedCategories, selectedLocations, searchFilter])
+    }, [roles, selectedCategories, selectedPositions, searchFilter])
 
     return (
         <div className='container 2xl:px-20 mx-auto flex flex-col lg:flex-row max-lg:space-y-8 py-8'>
@@ -82,7 +82,7 @@ const JobListing = () => {
                     <h4 className='font-medium text-lg py-4'>Search by Categories</h4>
                     <ul className='space-y-4 text-gray-600'>
                         {
-                            JobCategories.map((category, index) => (
+                            RoleCategories.map((category, index) => (
                                 <li className='flex gap-3 items-center' key={index}>
                                     <input
                                         className='scale-125'
@@ -97,18 +97,18 @@ const JobListing = () => {
                     </ul>
                 </div>
 
-                {/* Location Filter */}
+                {/* Position Filter */}
                 <div className={showFilter ? "" : "max-lg:hidden"}>
-                    <h4 className='font-medium text-lg py-4 pt-14'>Search by Location</h4>
+                    <h4 className='font-medium text-lg py-4 pt-14'>Search by Position</h4>
                     <ul className='space-y-4 text-gray-600'>
                         {
-                            JobLocations.map((location, index) => (
+                            RolePositions.map((location, index) => (
                                 <li className='flex gap-3 items-center' key={index}>
                                     <input
                                         className='scale-125'
                                         type="checkbox"
-                                        onChange={() => handleLocationChange(location)}
-                                        checked={selectedLocations.includes(location)}
+                                        onChange={() => handlePositionChange(location)}
+                                        checked={selectedPositions.includes(location)}
                                     />
                                     {location}
                                 </li>
@@ -118,30 +118,30 @@ const JobListing = () => {
                 </div>
             </div>
 
-            {/* Job listings */}
+            {/* Role listings */}
             <section className='w-full lg:w-3/4 text-gray-800 max-lg:px-4'>
-                <h3 className='font-medium text-3xl py-2' id='job-list'>Latest jobs</h3>
-                <p className='mb-8'>Get your desired job from top companies</p>
+                <h3 className='font-medium text-3xl py-2' id='role-list'>Latest roles</h3>
+                <p className='mb-8'>Get your desired role from the best clubs</p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
-                    {filteredJobs.slice((currentPage - 1) * 6, currentPage * 6).map((job, index) => (
-                        <JobCard key={index} job={job} />
+                    {filteredRoles.slice((currentPage - 1) * 6, currentPage * 6).map((role, index) => (
+                        <RoleCard key={index} role={role} />
                     ))}
                 </div>
 
 
                 {/* Pagination */}
-                {filteredJobs.length > 0 && (
+                {filteredRoles.length > 0 && (
                     <div className='flex items-center justify-center space-x-2 mt-10'>
-                        <a href="#job-list">
+                        <a href="#role-list">
                             <img onClick={() => setCurrentPage(Math.max(currentPage - 1), 1)} src={assets.left_arrow_icon} alt="" />
                         </a>
-                        {Array.from({ length: Math.ceil(filteredJobs.length / 6) }).map((_, index) => (
-                            <a key={index} href="#job-list">
+                        {Array.from({ length: Math.ceil(filteredRoles.length / 6) }).map((_, index) => (
+                            <a key={index} href="#role-list">
                                 <button onClick={() => setCurrentPage(index + 1)} className={`w-10 h-10 flex items-center justify-center border border-gray-300 rounded ${currentPage === index + 1 ? 'bg-blue-100 text-blue-500' : 'text-gray-500'}`}>{index + 1}</button>
                             </a>
                         ))}
-                        <a href="#job-list">
-                            <img onClick={() => setCurrentPage(Math.min(currentPage + 1, Math.ceil(filteredJobs.length / 6)))} src={assets.right_arrow_icon} alt="" />
+                        <a href="#role-list">
+                            <img onClick={() => setCurrentPage(Math.min(currentPage + 1, Math.ceil(filteredRoles.length / 6)))} src={assets.right_arrow_icon} alt="" />
                         </a>
                     </div>
                 )}
@@ -152,4 +152,4 @@ const JobListing = () => {
     )
 }
 
-export default JobListing
+export default RoleListing

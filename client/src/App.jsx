@@ -1,13 +1,13 @@
 import { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import ApplyJob from './pages/ApplyJob'
+import ApplyRole from './pages/ApplyRole'
 import Applications from './pages/Applications'
 import RecruiterLogin from './components/RecruiterLogin'
 import { AppContext } from './context/AppContext'
 import Dashboard from './pages/Dashboard'
-import AddJob from './pages/AddJob'
-import ManageJobs from './pages/ManageJobs'
+import AddRole from './pages/AddRole'
+import ManageRoles from './pages/ManageRoles'
 import ViewApplications from './pages/ViewApplications'
 import 'quill/dist/quill.snow.css'
 import { ToastContainer } from 'react-toastify';
@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
-  const { showRecruiterLogin, companyToken } = useContext(AppContext)
+  const { showRecruiterLogin, clubToken } = useContext(AppContext)
 
   return (
     <div>
@@ -23,13 +23,13 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/apply-job/:id' element={<ApplyJob />} />
+        <Route path='/apply-role/:id' element={<ApplyRole />} />
         <Route path='/applications' element={<Applications />} />
         <Route path='/dashboard' element={<Dashboard />}>
           {
-            companyToken ? <>
-              <Route path='add-job' element={<AddJob />} />
-              <Route path='manage-jobs' element={<ManageJobs />} />
+            clubToken ? <>
+              <Route path='add-role' element={<AddRole />} />
+              <Route path='manage-roles' element={<ManageRoles />} />
               <Route path='view-applications' element={<ViewApplications />} />
             </> : null
           }
