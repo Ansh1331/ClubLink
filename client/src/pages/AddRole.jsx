@@ -10,7 +10,7 @@ const AddRole = () => {
     const [title, setTitle] = useState('');
     const [location, setPosition] = useState('Event Coordinator');
     const [category, setCategory] = useState('Technical');
-    const [level, setLevel] = useState('Beginner level');
+    const [level, setLevel] = useState('Explorer level');
 
     const editorRef = useRef(null)
     const quillRef = useRef(null)
@@ -96,9 +96,9 @@ const AddRole = () => {
                 <div>
                     <p className='mb-2'>Role Level</p>
                     <select className='w-full px-3 py-2 border-2 border-gray-300 rounded' onChange={e => setLevel(e.target.value)}>
-                        <option value="Beginner level">Beginner level</option>
-                        <option value="Intermediate level">Intermediate level</option>
-                        <option value="Senior level">Senior level</option>
+                        <option value="Explorer level">Explorer</option>
+                        <option value="Contributor level">Contributor </option>
+                        <option value="Lead Material level">Lead Material</option>
                     </select>
                 </div>
 
