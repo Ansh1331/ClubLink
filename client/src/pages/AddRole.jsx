@@ -11,7 +11,6 @@ const AddRole = () => {
     const [location, setPosition] = useState('Event Coordinator');
     const [category, setCategory] = useState('Technical');
     const [level, setLevel] = useState('Beginner level');
-    const [salary, setSalary] = useState(0);
 
     const editorRef = useRef(null)
     const quillRef = useRef(null)
@@ -26,14 +25,13 @@ const AddRole = () => {
             const description = quillRef.current.root.innerHTML
 
             const { data } = await axios.post(backendUrl + '/api/club/post-role',
-                { title, description, location, salary, category, level },
+                { title, description, location, category, level },
                 { headers: { token: clubToken } }
             )
 
             if (data.success) {
                 toast.success(data.message)
                 setTitle('')
-                setSalary(0)
                 quillRef.current.root.innerHTML = ""
             } else {
                 toast.error(data.message)
@@ -104,10 +102,6 @@ const AddRole = () => {
                     </select>
                 </div>
 
-            </div>
-            <div>
-                <p className='mb-2'>Role Salary</p>
-                <input min={0} className='w-full px-3 py-2 border-2 border-gray-300 rounded sm:w-[120px]' onChange={e => setSalary(e.target.value)} type="Number" placeholder='2500' />
             </div>
 
             <button className='w-28 py-3 mt-4 bg-black text-white rounded'>ADD</button>

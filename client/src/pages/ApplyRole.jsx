@@ -116,8 +116,6 @@ const ApplyRole = () => {
                     {RoleData.level}
                   </span>
                   <span className='flex items-center gap-1'>
-                    <img src={assets.money_icon} alt="" />
-                    CTC: {kconvert.convertTo(RoleData.salary)}
                   </span>
                 </div>
               </div>

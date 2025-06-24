@@ -105,7 +105,7 @@ export const getClubData = async (req, res) => {
 // Post New Role
 export const postRole = async (req, res) => {
 
-    const { title, description, location, salary, level, category } = req.body
+    const { title, description, location, level, category } = req.body
 
     const clubId = req.club._id
 
@@ -115,7 +115,6 @@ export const postRole = async (req, res) => {
             title,
             description,
             location,
-            salary,
             clubId,
             date: Date.now(),
             level,
@@ -144,7 +143,6 @@ export const getClubRoleApplicants = async (req, res) => {
         // Find role applications for the user and populate related data
         const applications = await RoleApplication.find({ clubId })
             .populate('userId', 'name image resume')
-            .populate('roleId', 'title location category level salary')
             .exec()
 
         return res.json({ success: true, applications })
