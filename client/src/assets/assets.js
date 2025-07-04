@@ -1,6 +1,5 @@
 import logo from "./logo.png";
 import search_icon from "./search_icon.svg";
-import company_icon from "./company_icon.svg";
 import profile_img from "./profile_img.png";
 import app_main_img from "./app_main_img.png";
 import cross_icon from './cross_icon.svg';
@@ -33,7 +32,6 @@ export const assets = {
     search_icon,
     cross_icon,
     upload_area,
-    company_icon,
     resume_not_selected,
     resume_selected,
     app_main_img,

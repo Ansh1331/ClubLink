@@ -92,6 +92,7 @@ export const getUserRoleApplications = async (req, res) => {
 
     const applications = await RoleApplication.find({ userId })
       .populate('clubId', 'name email image')
+      .populate('roleId', 'title location')
       .exec();
 
     if (!applications) {

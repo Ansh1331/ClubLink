@@ -22,7 +22,6 @@ const Navbar = () => {
                     src={assets.logo}
                     alt="ClubLink logo"
                 />
-                {/* <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="" /> */}
                 {
                     user
                         ? <div className='flex items-center gap-3'>

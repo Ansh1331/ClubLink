@@ -143,6 +143,7 @@ export const getClubRoleApplicants = async (req, res) => {
         // Find role applications for the user and populate related data
         const applications = await RoleApplication.find({ clubId })
             .populate('userId', 'name image resume')
+            .populate('roleId', 'title location')   
             .exec()
 
         return res.json({ success: true, applications })

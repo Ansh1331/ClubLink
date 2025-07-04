@@ -73,6 +73,7 @@ const RoleListing = () => {
                     )
                 }
 
+                {/* For mobile whether to show or hide filter  */}
                 <button onClick={e => setShowFilter(prev => !prev)} className='px-6 py-1.5 rounded border border-gray-400 lg:hidden'>
                     {showFilter ? "Close" : "Filters"}
                 </button>

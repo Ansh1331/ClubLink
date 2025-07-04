@@ -81,6 +81,7 @@ const Applications = () => {
           }
         </div>
         <h2 className='text-xl font-semibold mb-4'>Roles Applied</h2>
+        {/* {console.log("Applications:", userApplications)} */}
         <table className='min-w-full bg-white border rounded-lg'>
           <thead>
             <tr>
@@ -92,12 +93,14 @@ const Applications = () => {
             </tr>
           </thead>
           <tbody>
+            
             {userApplications.map((role, index) => true ? (
               <tr key={index}>
                 <td className='py-3 px-4 flex items-center gap-2 border-b'>
                   <img className='w-8 h-8' src={role.clubId.image} alt="" />
                   {role.clubId.name}
                 </td>
+                
                 <td className='py-2 px-4 border-b'>{role.roleId.title}</td>
                 <td className='py-2 px-4 border-b max-sm:hidden'>{role.roleId.location}</td>
                 <td className='py-2 px-4 border-b max-sm:hidden'>{moment(role.date).format('ll')}</td>

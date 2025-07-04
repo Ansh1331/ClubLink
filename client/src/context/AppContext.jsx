@@ -64,32 +64,32 @@ export const AppContextProvider = (props) => {
     }
 
     // Function to Fetch User Data
-   const fetchUserData = async () => {
-  try {
-    const token = await getToken();
+    const fetchUserData = async () => {
+        try {
+            const token = await getToken();
 
-    const { data } = await axios.get(backendUrl + '/api/users/user', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+            const { data } = await axios.get(backendUrl + '/api/users/user', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
-    if (data.success) {
-      setUserData(data.user);
-    } else {
-      // ❗IMPORTANT: Create user if not found
-      const { data: createData } = await axios.post(backendUrl + '/api/users/create', {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+            if (data.success) {
+                setUserData(data.user);
+            } else {
+                // ❗IMPORTANT: Create user if not found
+                const { data: createData } = await axios.post(backendUrl + '/api/users/create', {}, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
 
-      if (createData.success) {
-        setUserData(createData.user);
-      } else {
-        toast.error(createData.message);
-      }
-    }
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+                if (createData.success) {
+                    setUserData(createData.user);
+                } else {
+                    toast.error(createData.message);
+                }
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
 
     // Function to Fetch User's Applied Applications
